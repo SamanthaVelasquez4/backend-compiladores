@@ -42,11 +42,11 @@ def convertidor():
             arbol = generar_arbol(tokens)
             mostrar_arbol(arbol)
         else:
-            return jsonify({'status': False, "Error Sintáctico": "La sintaxis de los tokens no es válida."})
+            return jsonify({'status': False,'message' : "Error Sintáctico : La sintaxis de los tokens no es válida."})
     else:
-        return jsonify({'status': False, "Error Léxico" : "La entrada no generó tokens válidos."})
+        return jsonify({'status': False, 'message' : "Error Léxico : La entrada no generó tokens válidos."})
 
-    return jsonify({'resultado': resultado})
+    return jsonify({'status': True, 'message' : "Petición realizada con exito.", 'result': resultado})
 
 @app.route('/get/arbol', methods=['GET'])
 def enviar_imagen():
