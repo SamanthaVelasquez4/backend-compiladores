@@ -1,18 +1,34 @@
-import re
-# Función para análisis léxico
+import ply.lex as lex
+
+# Definir los tokens
+tokens = (
+    'CANTIDAD',
+    'MONEDA',
+    'FIN',
+)
+
+# Definir las expresiones regulares para cada token
+t_CANTIDAD = r'\d+\.?\d+'
+t_MONEDA = r'DólarEstadounidense|LempiraHondureño|Euro'
+t_FIN = r'\bfin\b'
+
+# Ignorar espacios en blanco y saltos de línea
+t_ignore = ' \t\n'
+
+def t_error(t):
+    print(f"Illegal character '{t.value[0]}' at position {t.lexpos}")
+    t.lexer.skip(1)  # O bien, puedes usar t.lexer.skip(n) para ignorar n caracteres
+
+# Crear el lexer
+lexer = lex.lex()
+
 def analizar_lexico(entrada):
-    """
-    Analiza léxicamente la entrada según el patrón definido.
-    :param entrada: Cadena de texto que se va a analizar
-    :return: Lista de tokens como tuplas (tipo, valor)
-    """
-    print("entrada", entrada)
-    # Patrón modificado para manejar separadores por coma
-    patron = r"(?P<Cantidad>\d+\.?\d+),\s*(?P<Origen>DólarEstadounidense|LempiraHondureño|Euro),\s*(?P<Destino>LempiraHondureño|DólarEstadounidense|Euro)"
-    match = re.match(patron, entrada)
-    if not match:
-        raise ValueError("Error sintáctico: El formato de entrada no coincide con la estructura esperada")
-    
-    # Retorna los tokens como pares (nombre, valor)
-    tokens = [(key, value) for key, value in match.groupdict().items()]
-    return tokens
+    lexer.input(entrada)
+    tokensFinales = []
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        tokensFinales.append((tok.type, tok.value))
+        print(tokensFinales)
+    return tokensFinales

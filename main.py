@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request, send_file
 from src.convertidor import ConvertidorDivisas
 from src.analizador_lexico import analizar_lexico
-from src.analizador_sintactico import analizar_sintaxis, mostrar_arbol, generar_arbol
+from src.analizador_sintactico import analizar_sintaxis
+from src.arbol import generar_arbol, mostrar_arbol
 
 app = Flask(__name__)
 
@@ -37,7 +38,9 @@ def convertidor():
     
     if tokens:
         # Analizar sintaxis
-        if analizar_sintaxis(tokens):
+        entrada_sintactica = " ".join([valor for tipo, valor in tokens]) + " fin"
+        sintaxis =  analizar_sintaxis(entrada_sintactica)
+        if sintaxis:
             # Generar y mostrar el árbol sintáctico
             arbol = generar_arbol(tokens)
             mostrar_arbol(arbol)

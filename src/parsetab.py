@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'CANTIDAD DESTINO FIN ORIGENinstruccion : CANTIDAD ORIGEN DESTINO FIN'
+_lr_signature = 'CANTIDAD FIN MONEDAinstruccion : CANTIDAD MONEDA MONEDA FIN'
     
-_lr_action_items = {'CANTIDAD':([0,],[2,]),'$end':([1,5,],[0,-1,]),'ORIGEN':([2,],[3,]),'DESTINO':([3,],[4,]),'FIN':([4,],[5,]),}
+_lr_action_items = {'CANTIDAD':([0,],[2,]),'$end':([1,5,],[0,-1,]),'MONEDA':([2,3,],[3,4,]),'FIN':([4,],[5,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -27,5 +27,5 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> instruccion","S'",1,None,None,None),
-  ('instruccion -> CANTIDAD ORIGEN DESTINO FIN','instruccion',4,'p_instruccion','analizador_sintactico.py',5),
+  ('instruccion -> CANTIDAD MONEDA MONEDA FIN','instruccion',4,'p_instruccion','analizador_sintactico.py',6),
 ]

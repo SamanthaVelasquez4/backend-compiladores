@@ -17,6 +17,8 @@
 
 - pip install graphviz
 
+- pip install ply
+
 ### 3. Correr el backend
 
 - python main.py
