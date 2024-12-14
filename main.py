@@ -3,9 +3,10 @@ from src.convertidor import ConvertidorDivisas
 from src.analizador_lexico import analizar_lexico
 from src.analizador_sintactico import analizar_sintaxis
 from src.arbol import generar_arbol, mostrar_arbol
-
+from flask_cors import CORS
 app = Flask(__name__)
 
+CORS(app)
 @app.route("/")
 def root():
     return "Servidor levantado correctamente."
@@ -22,11 +23,16 @@ def convertir():
 @app.route("/post/convertidor", methods = ['POST'])
 def convertidor():
     data = request.get_json()
-
+    print(data)
     # Obtener los datos que vienen el request body
     cantidad = data['cantidad']
     origen = data['origen']
     destino = data['destino']
+
+    try:
+        cantidad = float(cantidad)
+    except ValueError:
+        return jsonify({'status': False, 'message': 'Cantidad no válida'}), 400
 
     #convertir
     convertir = ConvertidorDivisas()
